@@ -22,7 +22,7 @@ const MODEL_KEYS = ["coder", "reason", "vision"] as const;
 
 export function Sidebar({ activeModel, models, onRunDemo, isRunning }: SidebarProps) {
   return (
-    <aside className="w-[260px] bg-[#13161c] border-r border-[#2a3140] flex flex-col overflow-hidden shrink-0">
+    <aside className="w-full h-full bg-[#13161c] border-r border-[#2a3140] flex flex-col overflow-hidden">
       <div className="px-3 pt-3.5 pb-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#6b7385]">
         Model Pool
       </div>
@@ -77,7 +77,7 @@ export function Sidebar({ activeModel, models, onRunDemo, isRunning }: SidebarPr
           disabled={isRunning}
         >
           <span className="text-base">{d.icon}</span>
-          {d.label}
+          <span className="truncate">{d.label}</span>
         </Button>
       ))}
 

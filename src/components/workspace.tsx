@@ -36,21 +36,21 @@ export function Workspace({ messages, routerStatus, onSend, onAttach, isRunning 
   }
 
   return (
-    <div className="flex flex-col flex-1 overflow-hidden bg-[#0c0e12]">
+    <div className="flex flex-col flex-1 overflow-hidden bg-[#0c0e12] min-w-0">
       {/* Router Banner */}
-      <div className="bg-gradient-to-r from-[rgba(59,130,246,0.12)] to-[rgba(139,92,246,0.08)] border-b border-[#222833] px-5 py-2 text-[12px] flex items-center gap-2.5 text-[#9aa3b2] min-h-[36px]">
-        <span className="font-semibold text-[#3b82f6] uppercase text-[10px] tracking-[0.06em]">
+      <div className="bg-gradient-to-r from-[rgba(59,130,246,0.12)] to-[rgba(139,92,246,0.08)] border-b border-[#222833] px-3 sm:px-5 py-2 text-[12px] flex items-center gap-2 sm:gap-2.5 text-[#9aa3b2] min-h-[36px]">
+        <span className="font-semibold text-[#3b82f6] uppercase text-[10px] tracking-[0.06em] shrink-0">
           Router
         </span>
-        <span>{routerStatus}</span>
+        <span className="truncate">{routerStatus}</span>
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 px-6 py-5">
+      <ScrollArea className="flex-1 px-3 sm:px-6 py-4 sm:py-5">
         {messages.length === 0 ? (
           <WelcomeScreen onDemo={onAttach} />
         ) : (
-          <div className="flex flex-col gap-4 max-w-[780px]">
+          <div className="flex flex-col gap-3 sm:gap-4 max-w-[780px]">
             {messages.map((msg) => (
               <MessageBubble key={msg.id} msg={msg} />
             ))}
@@ -60,12 +60,12 @@ export function Workspace({ messages, routerStatus, onSend, onAttach, isRunning 
       </ScrollArea>
 
       {/* Input */}
-      <div className="border-t border-[#2a3140] bg-[#13161c] px-5 pt-3.5 pb-4">
-        <div className="flex gap-2.5 items-end bg-[#181c24] border border-[#2a3140] rounded-xl px-3 py-2.5 focus-within:border-[#3b82f6] transition-colors">
+      <div className="border-t border-[#2a3140] bg-[#13161c] px-3 sm:px-5 pt-3 pb-3 sm:pb-4">
+        <div className="flex gap-2 sm:gap-2.5 items-end bg-[#181c24] border border-[#2a3140] rounded-xl px-2.5 sm:px-3 py-2 sm:py-2.5 focus-within:border-[#3b82f6] transition-colors">
           <Button
             variant="ghost"
             size="icon"
-            className="shrink-0 text-base text-[#9aa3b2] hover:text-[#e8eaed]"
+            className="shrink-0 w-8 h-8 sm:w-9 sm:h-9 text-base text-[#9aa3b2] hover:text-[#e8eaed]"
             onClick={onAttach}
           >
             📎
@@ -81,12 +81,12 @@ export function Workspace({ messages, routerStatus, onSend, onAttach, isRunning 
           <Button
             onClick={handleSend}
             disabled={isRunning || !input.trim()}
-            className="shrink-0 bg-[#3b82f6] text-white hover:bg-[#3b82f6]/90 h-9 px-5 font-semibold text-[13px] rounded-lg"
+            className="shrink-0 bg-[#3b82f6] text-white hover:bg-[#3b82f6]/90 h-8 sm:h-9 px-3 sm:px-5 font-semibold text-[13px] rounded-lg"
           >
             Send
           </Button>
         </div>
-        <div className="text-[11px] text-[#6b7385] mt-2 text-center">
+        <div className="text-[11px] text-[#6b7385] mt-2 text-center hidden sm:block">
           Models auto-routed · Air-gapped · No data leaves this machine
         </div>
       </div>
@@ -96,13 +96,15 @@ export function Workspace({ messages, routerStatus, onSend, onAttach, isRunning 
 
 function WelcomeScreen({ onDemo }: { onDemo: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center py-20 text-[#9aa3b2]">
-      <h1 className="text-[28px] font-bold text-[#e8eaed] mb-2 tracking-tight">ModelForge</h1>
-      <p className="max-w-[420px] text-[14px] leading-relaxed mb-7">
+    <div className="flex flex-col items-center justify-center text-center py-10 sm:py-20 text-[#9aa3b2]">
+      <h1 className="text-[22px] sm:text-[28px] font-bold text-[#e8eaed] mb-2 tracking-tight">
+        ModelForge
+      </h1>
+      <p className="max-w-[420px] text-[13px] sm:text-[14px] leading-relaxed mb-5 sm:mb-7 px-2">
         Self-routing, on-premise AI workbench. Automatically selects the right open-weight model and
         switches mid-task when limits are hit — all data stays on premises.
       </p>
-      <div className="grid grid-cols-2 gap-2.5 max-w-[520px] w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5 max-w-[520px] w-full px-2">
         {[
           { icon: "📄", title: "Inspection Report", desc: "OCR → Agent drafts Word approval note" },
           { icon: "💻", title: "Coding Task", desc: "Routed to coder · sandbox verified" },
@@ -112,7 +114,7 @@ function WelcomeScreen({ onDemo }: { onDemo: () => void }) {
           <div
             key={d.title}
             onClick={onDemo}
-            className="bg-[#181c24] border border-[#2a3140] rounded-[10px] p-3.5 text-left cursor-pointer transition-all hover:border-[#3b82f6] hover:bg-[#1e2430] hover:-translate-y-px"
+            className="bg-[#181c24] border border-[#2a3140] rounded-[10px] p-3 sm:p-3.5 text-left cursor-pointer transition-all hover:border-[#3b82f6] hover:bg-[#1e2430] hover:-translate-y-px"
           >
             <div className="text-xl mb-1.5">{d.icon}</div>
             <strong className="block text-[13px] text-[#e8eaed] mb-0.5">{d.title}</strong>
@@ -128,7 +130,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
   if (msg.role === "user") {
     const isAttachment = msg.content.startsWith("attachment:");
     return (
-      <div className="self-end max-w-[780px] bg-[rgba(59,130,246,0.15)] border border-[rgba(59,130,246,0.3)] rounded-[14px_14px_4px_14px] px-4 py-3 text-[14px] leading-relaxed animate-fade-in-up whitespace-pre-wrap">
+      <div className="self-end max-w-[90%] sm:max-w-[780px] bg-[rgba(59,130,246,0.15)] border border-[rgba(59,130,246,0.3)] rounded-[14px_14px_4px_14px] px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-[14px] leading-relaxed animate-fade-in-up whitespace-pre-wrap">
         {isAttachment && (
           <div className="text-[#3b82f6] text-[12px] font-medium mb-1">
             📎 {msg.content.split("\n")[0].replace("attachment:", "")}
@@ -140,10 +142,6 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
   }
 
   // assistant
-  const hasDeliverable = msg.content.includes("deliverable:");
-  const hasTool = msg.content.includes("tool:");
-  const hasCode = msg.content.includes("```");
-
   const parts = msg.content.split("\n");
 
   return (
@@ -154,13 +152,13 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
             {msg.model}
           </span>
         )}
-        <span>local · on-premise</span>
+        <span className="hidden sm:inline">local · on-premise</span>
       </div>
-      <div className="bg-[#181c24] border border-[#222833] rounded-xl px-4 py-4 text-[14px] leading-[1.6]">
+      <div className="bg-[#181c24] border border-[#222833] rounded-xl px-3 sm:px-4 py-3 sm:py-4 text-[13px] sm:text-[14px] leading-[1.6]">
         {parts.map((line, i) => {
           if (line.startsWith("tool:")) {
             return (
-              <div key={i} className="bg-[#0c0e12] border border-[#2a3140] rounded-lg px-3 py-2.5 my-2 text-[12px] font-mono text-[#9aa3b2]">
+              <div key={i} className="bg-[#0c0e12] border border-[#2a3140] rounded-lg px-2.5 sm:px-3 py-2 sm:py-2.5 my-2 text-[11px] sm:text-[12px] font-mono text-[#9aa3b2] overflow-x-auto">
                 🔧 <span className="text-[#a78bfa] font-medium">{line.replace("tool:", "").split("(")[0]}</span>
                 ({line.split("(").slice(1).join("(")}
               </div>
@@ -169,22 +167,24 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
           if (line.startsWith("deliverable:")) {
             const parts = line.replace("deliverable:", "").split("|");
             return (
-              <div key={i} className="bg-gradient-to-br from-[rgba(34,197,94,0.08)] to-[rgba(59,130,246,0.06)] border border-[rgba(34,197,94,0.35)] rounded-[10px] px-4 py-3.5 my-3 flex items-center gap-3">
-                <div className="w-10 h-10 bg-[rgba(34,197,94,0.12)] rounded-lg grid place-items-center text-lg">
-                  📄
+              <div key={i} className="bg-gradient-to-br from-[rgba(34,197,94,0.08)] to-[rgba(59,130,246,0.06)] border border-[rgba(34,197,94,0.35)] rounded-[10px] px-3 sm:px-4 py-3 sm:py-3.5 my-3 flex flex-col sm:flex-row items-start sm:items-center gap-2.5 sm:gap-3">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className="w-10 h-10 bg-[rgba(34,197,94,0.12)] rounded-lg grid place-items-center text-lg shrink-0">
+                    📄
+                  </div>
+                  <div className="min-w-0">
+                    <strong className="block text-[13px] truncate">{parts[0]}</strong>
+                    <span className="text-[11px] text-[#6b7385]">{parts[1]}</span>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <strong className="block text-[13px]">{parts[0]}</strong>
-                  <span className="text-[11px] text-[#6b7385]">{parts[1]}</span>
-                </div>
-                <button className="bg-[#22c55e] text-[#0c0e12] border-none px-3.5 py-1.5 rounded-md text-[12px] font-semibold cursor-pointer hover:brightness-110">
+                <button className="bg-[#22c55e] text-[#0c0e12] border-none px-3.5 py-1.5 rounded-md text-[12px] font-semibold cursor-pointer hover:brightness-110 shrink-0">
                   Download
                 </button>
               </div>
             );
           }
           if (line.startsWith("```")) {
-            return null; // handled by code block below
+            return null;
           }
           if (line.trim() === "") {
             return <br key={i} />;
@@ -210,7 +210,7 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
             const segments = rendered.split(/(`[^`]+`)/g);
             rendered = segments.map((seg, j) =>
               seg.startsWith("`") && seg.endsWith("`") ? (
-                <code key={j} className="font-mono bg-[#0c0e12] px-1.5 py-[2px] rounded text-[13px]">
+                <code key={j} className="font-mono bg-[#0c0e12] px-1.5 py-[2px] rounded text-[12px] sm:text-[13px]">
                   {seg.slice(1, -1)}
                 </code>
               ) : (
@@ -236,18 +236,16 @@ function MessageBubble({ msg }: { msg: ChatMessage }) {
           const codeBlocks: React.ReactNode[] = [];
           let inCode = false;
           let codeLines: string[] = [];
-          let lang = "";
           parts.forEach((line, i) => {
             if (line.startsWith("```") && !inCode) {
               inCode = true;
-              lang = line.replace("```", "").trim();
               codeLines = [];
             } else if (line.startsWith("```") && inCode) {
               inCode = false;
               codeBlocks.push(
                 <pre
                   key={`code-${i}`}
-                  className="bg-[#0c0e12] border border-[#2a3140] rounded-lg px-3 py-3 overflow-x-auto font-mono text-[12px] my-2.5 leading-[1.5]"
+                  className="bg-[#0c0e12] border border-[#2a3140] rounded-lg px-2.5 sm:px-3 py-2.5 sm:py-3 overflow-x-auto font-mono text-[11px] sm:text-[12px] my-2.5 leading-[1.5]"
                 >
                   {codeLines.join("\n")}
                 </pre>

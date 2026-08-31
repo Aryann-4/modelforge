@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import type { LogEntry, AgentStep } from "@/hooks/use-modelforge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,7 +12,7 @@ interface RightPanelProps {
 
 export function RightPanel({ logs, agentSteps }: RightPanelProps) {
   return (
-    <aside className="w-[300px] bg-[#13161c] border-l border-[#2a3140] flex flex-col overflow-hidden shrink-0">
+    <aside className="w-full h-full bg-[#13161c] border-l border-[#2a3140] flex flex-col overflow-hidden">
       <Tabs defaultValue="network" className="flex flex-col h-full">
         <TabsList className="flex border-b border-[#2a3140] rounded-none bg-transparent h-auto p-0 shrink-0">
           <TabsTrigger
@@ -81,9 +80,9 @@ function StatBlock({ rows }: { rows: { label: string; value: string; color?: str
   return (
     <div className="bg-[#181c24] border border-[#222833] rounded-lg p-3 mb-2.5">
       {rows.map((r, i) => (
-        <div key={i} className="flex justify-between text-[12px] mb-1.5 last:mb-0">
-          <span className="text-[#6b7385]">{r.label}</span>
-          <strong className={cn("font-mono", r.color || "text-[#22c55e]")}>{r.value}</strong>
+        <div key={i} className="flex justify-between text-[12px] mb-1.5 last:mb-0 gap-2">
+          <span className="text-[#6b7385] truncate">{r.label}</span>
+          <strong className={cn("font-mono shrink-0", r.color || "text-[#22c55e]")}>{r.value}</strong>
         </div>
       ))}
     </div>
@@ -115,7 +114,7 @@ function AgentPanel({ steps }: { steps: AgentStep[] }) {
           >
             {s.status === "done" ? "✓" : i + 1}
           </div>
-          <div className="text-[12px] text-[#9aa3b2] leading-snug">
+          <div className="text-[12px] text-[#9aa3b2] leading-snug min-w-0">
             <strong className="block text-[12px] text-[#e8eaed]">{s.title}</strong>
             {s.detail}
           </div>
@@ -132,7 +131,7 @@ function LogsPanel({ logs }: { logs: LogEntry[] }) {
         <div
           key={i}
           className={cn(
-            "font-mono text-[11px] px-2 py-1.5 rounded mb-1 leading-snug",
+            "font-mono text-[11px] px-2 py-1.5 rounded mb-1 leading-snug break-words",
             l.type === "ok" ? "text-[#22c55e]" : l.type === "warn" ? "text-[#f59e0b]" : "text-[#22d3ee]"
           )}
         >
