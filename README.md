@@ -1,6 +1,6 @@
 # ModelForge — Sovereign On-Premise Agentic AI Workbench
 
-A self-routing, on-premise AI workbench that automatically selects the right open-weight model and switches mid-task when context limits are hit — all data stays on premises.
+A self-routing, on-premise AI workbench built with **Next.js**, **Tailwind CSS**, and **shadcn/ui** components from [21st.dev](https://21st.dev).
 
 ## Features
 
@@ -10,6 +10,13 @@ A self-routing, on-premise AI workbench that automatically selects the right ope
 - **Agent Tooling** — OCR extraction, sandbox code execution, RAG search, document generation — all local
 - **Live Network Monitor** — Proves zero data egress in real-time
 
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router)
+- **Styling:** Tailwind CSS 4
+- **Components:** shadcn/ui (base-nova style) + 21st.dev registry
+- **Fonts:** Geist Sans + Geist Mono
+
 ## Demo Scenarios
 
 1. **Scanned Inspection → Approval Note** — OCR a scanned PDF, extract findings, draft a Word document
@@ -17,10 +24,13 @@ A self-routing, on-premise AI workbench that automatically selects the right ope
 3. **Long Context → Model Switch** — Process 40+ pages, auto-switch when context limit hits, continue seamlessly
 4. **Engineering Drawing Analysis** — Vision model parses P&IDs for valves, annotations, and anomalies
 
-## Stack
+## Getting Started
 
-- IBM Plex Sans + IBM Plex Mono
-- Pure HTML/CSS/JS (no frameworks)
-- Dark industrial UI
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## SIH 2024 — Problem Statement SIH26117 · MRPL
