@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export interface ModelInfo {
   name: string;
@@ -130,21 +130,6 @@ export function useModelforge() {
   }, [addLog]);
 
   // --- DEMOS ---
-  const runDemo = useCallback(
-    async (type: "inspection" | "coding" | "handoff" | "multimodal") => {
-      if (isRunning) return;
-      setIsRunning(true);
-
-      if (type === "inspection") await demoInspection();
-      else if (type === "coding") await demoCoding();
-      else if (type === "handoff") await demoHandoff();
-      else if (type === "multimodal") await demoMultimodal();
-
-      setIsRunning(false);
-    },
-    [isRunning, addLog, activateModel, setCtx, flashSwitch]
-  );
-
   async function demoInspection() {
     setMessages((prev) => [
       ...prev,
@@ -401,6 +386,21 @@ export function useModelforge() {
     setRouterStatus("Multimodal task complete · 0 external calls");
     addLog("Vision analysis complete · 3 PSVs extracted, 2 flags raised", "ok");
   }
+
+  const runDemo = useCallback(
+    async (type: "inspection" | "coding" | "handoff" | "multimodal") => {
+      if (isRunning) return;
+      setIsRunning(true);
+
+      if (type === "inspection") await demoInspection();
+      else if (type === "coding") await demoCoding();
+      else if (type === "handoff") await demoHandoff();
+      else if (type === "multimodal") await demoMultimodal();
+
+      setIsRunning(false);
+    },
+    [isRunning, addLog, activateModel, setCtx, flashSwitch]
+  );
 
   // --- FREEFORM ---
   const sendMessage = useCallback(
