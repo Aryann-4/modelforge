@@ -1,36 +1,63 @@
-# ModelForge — Sovereign On-Premise Agentic AI Workbench
+# ModelForge — combined app
 
-A self-routing, on-premise AI workbench built with **Next.js**, **Tailwind CSS**, and **shadcn/ui** components from [21st.dev](https://21st.dev).
+This app is `model_forge_v2`'s backend paired with `new-design-master`'s
+frontend. Nothing else was redesigned — the only changes made were the ones
+needed to connect the two:
 
-## Features
+1. **`backend/app/core/config.py`** — added `http://localhost:3000` (the
+   Next.js dev port) to `cors_origins`, alongside the existing
+   `http://localhost:5173` default. Same one-line change mirrored in
+   `backend/.env.example`.
+2. **`frontend/next.config.ts`** — added a `rewrites()` rule so calls to
+   `/api/:path*` are forwarded to the FastAPI backend
+   (`MODELFORGE_BACKEND_URL`, default `http://localhost:8000`). This plays
+   the same role the old frontend's `vite.config.ts` `server.proxy` did.
+3. **`frontend/src/lib/modelforge-api.ts`** (new file) — a small client for
+   the backend's `POST /api/v1/complete`, `GET /api/v1/models`, and
+   `GET /api/v1/system/status`, in the same shape as
+   `model_forge_v2/frontend/src/services/api.ts`.
+4. **`frontend/src/hooks/use-modelforge.ts`** — `sendMessage`'s freeform
+   chat path now calls the real backend (`modelforgeApi.complete`) instead
+   of returning a canned string. Everything else in this hook (the four
+   scripted "demo scenario" walkthroughs, GPU/heartbeat simulation, model
+   card animation) is untouched.
+5. **`frontend/src/components/gen-mode/index.tsx` and `workspace.tsx`** —
+   Gen Mode's prompt bar previously had no `onClick`/state wiring at all
+   (a static mockup with one hard-coded example exchange). It now uses the
+   hook above, so typing a prompt and pressing "Generate" actually sends it
+   to ModelForge and renders the real answer. Layout/styling classes are
+   unchanged; only the data is now live.
 
-- **Smart Model Router** — Classifies tasks and routes to the optimal model (Qwen2.5-Coder-32B, Llama-3.3-70B, Qwen2.5-VL-7B)
-- **Seamless Model Handoff** — When context ceiling is reached, conversation state is preserved and transferred to another model automatically
-- **Air-Gapped Sovereignty** — Zero external calls; all inference runs via local Ollama/vLLM endpoints
-- **Agent Tooling** — OCR extraction, sandbox code execution, RAG search, document generation — all local
-- **Live Network Monitor** — Proves zero data egress in real-time
+Dev Mode (`src/components/dev-mode/*`) and the demo scenarios in the Gen
+Mode sidebar are unchanged — they're self-contained UI showcases with no
+backend equivalent to connect to.
 
-## Tech Stack
+## Running it locally
 
-- **Framework:** Next.js 16 (App Router)
-- **Styling:** Tailwind CSS 4
-- **Components:** shadcn/ui (base-nova style) + 21st.dev registry
-- **Fonts:** Geist Sans + Geist Mono
-
-## Demo Scenarios
-
-1. **Scanned Inspection → Approval Note** — OCR a scanned PDF, extract findings, draft a Word document
-2. **Code Task + Sandbox Verify** — Generate Python code and verify execution in a sandboxed environment
-3. **Long Context → Model Switch** — Process 40+ pages, auto-switch when context limit hits, continue seamlessly
-4. **Engineering Drawing Analysis** — Vision model parses P&IDs for valves, annotations, and anomalies
-
-## Getting Started
+**Backend** (FastAPI, seeded with mock providers/models — no external API
+keys needed):
 
 ```bash
-npm install
-npm run dev
+cd backend
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-dev.txt
+cp .env.example .env
+python -m app.seed            # loads demo providers/models/policies
+uvicorn app.main:app --reload # http://localhost:8000/docs
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+**Frontend** (Next.js):
 
-## SIH 2024 — Problem Statement SIH26117 · MRPL
+```bash
+cd frontend
+npm install
+npm run dev                   # http://localhost:3000
+```
+
+Open http://localhost:3000, switch to **Gen Mode** in the top nav, and send
+a prompt — it's routed through the real ModelForge backend (task
+classification → policy-filtered ranking → execution with fallback) and the
+router status / model badge reflect whatever the backend actually picked.
+
+If the backend runs somewhere other than `http://localhost:8000`, set
+`MODELFORGE_BACKEND_URL` before starting the frontend.
