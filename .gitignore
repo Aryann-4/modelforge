@@ -20,3 +20,4 @@ venv/
 dist/
 build/
 *.egg-info/
+backend/modelforge.db
