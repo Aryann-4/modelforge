@@ -476,6 +476,16 @@ export function useModelforge() {
     [isRunning, models, addLog, activateModel, setCtx]
   );
 
+  const resetSession = useCallback(() => {
+    setMessages([]);
+    setAgentSteps([]);
+    setRouterStatus("Idle — waiting for request. Task classification + limit monitoring active.");
+    activateModel(null);
+    for (const key of Object.keys(models)) {
+      setCtx(key, 0);
+    }
+  }, [models, activateModel, setCtx]);
+
   const simulateAttach = useCallback(() => {
     // placeholder
   }, []);
@@ -493,5 +503,6 @@ export function useModelforge() {
     runDemo,
     sendMessage,
     simulateAttach,
+    resetSession,
   };
 }

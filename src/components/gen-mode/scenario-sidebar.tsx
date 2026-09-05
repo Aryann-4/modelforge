@@ -35,7 +35,7 @@ const SCENARIOS = [
   },
 ];
 
-export function ScenarioSidebar() {
+export function ScenarioSidebar({ onNewSession }: { onNewSession?: () => void }) {
   const [temp, setTemp] = useState(35);
 
   return (
@@ -50,7 +50,10 @@ export function ScenarioSidebar() {
             AIR-GAPPED
           </span>
         </div>
-        <button className="w-full bg-dusk-peach hover:bg-[#ffb59c] text-dusk-navy font-bold py-2.5 px-4 rounded-xl hover:shadow-[0_0_22px_rgba(255,165,134,0.4)] transition-all transform active:scale-[0.98] text-xs font-mono tracking-wider flex items-center justify-center gap-2 cursor-pointer">
+        <button
+          onClick={onNewSession}
+          className="w-full bg-dusk-peach hover:bg-[#ffb59c] text-dusk-navy font-bold py-2.5 px-4 rounded-xl hover:shadow-[0_0_22px_rgba(255,165,134,0.4)] transition-all transform active:scale-[0.98] text-xs font-mono tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+        >
           <MaterialIcon name="add" className="text-base font-bold" />
           New Session Run
         </button>
